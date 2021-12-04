@@ -1,6 +1,17 @@
 # Azure Function Weather API
 This is a basic Azure Function written in C# that consumes a 3rd party API from https://www.weatherapi.com/ and integrates Azure KeyVault to hide the API Keys.
 
+## Nuget Packages Installed
+```
+dotnet add package Azure.Identity
+```
+```
+dotnet add package Azure.Security.KeyVault.Secrets
+```
+```
+dotnet add package Microsoft.Extensions.Configuration.AzureKeyVault
+```
+
 ## Helpful Azure CLI Commands
 This will set the default subscription to use when running commands.
 -s = is shorthand for subscription
