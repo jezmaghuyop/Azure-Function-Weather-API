@@ -29,6 +29,9 @@ namespace Weather.API
             var apiUrl = Environment.GetEnvironmentVariable("Kv_Weather_API_Url", EnvironmentVariableTarget.Process);
             var apiKey = Environment.GetEnvironmentVariable("Kv_Weather_API_Key", EnvironmentVariableTarget.Process);
 
+            log.LogInformation($"apiUrl: {apiUrl}");
+            log.LogInformation($"apiKey: {apiKey}");
+
             WeatherPayload request = null;
             WeatherResponse response = null;
 
@@ -39,20 +42,25 @@ namespace Weather.API
 
             try
             {
-                var result = await this._httpClient.GetAsync($"{apiUrl}?key={apiKey}&q={request.City}&aqi=no");
+                var endpoint = $"{apiUrl}/v1/current.json?key={apiKey}&q={request.City}&aqi=no";
+
+                log.LogInformation($"requesting to {endpoint}");
+
+                var result = await this._httpClient.GetAsync(endpoint);
 
                 if (result.IsSuccessStatusCode)
-                {
-                    var responseStr = await result.Content.ReadAsStringAsync();
-                    response = JsonConvert.DeserializeObject<WeatherResponse>(responseStr);
-                }
+                {                    
+                    var responseStr = await result.Content.ReadAsStringAsync();                    
+                    response = JsonConvert.DeserializeObject<WeatherResponse>(responseStr);                    
+                }                
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                log.LogError(ex, $"{ex.Message}");
                 throw;
             }
 
-            return new OkObjectResult(response);           
+            return new OkObjectResult(response);
         }
     }
 }
