@@ -23,7 +23,7 @@ namespace Weather.API
 
         [FunctionName("GetWeatherHttpTrigger")]
         public async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "api/weather/current")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "weather/current")] HttpRequest req,
             ILogger log)
         {
             var apiUrl = Environment.GetEnvironmentVariable("Kv_Weather_API_Url", EnvironmentVariableTarget.Process);
